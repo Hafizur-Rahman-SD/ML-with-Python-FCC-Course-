@@ -1,8 +1,6 @@
 # RPS_game.py
-# Game logic and sample bots
-# Do not modify this file
-
-import random
+# Game engine and sample bots
+# Do not modify this file for FCC challenge
 
 def play(player1, player2, num_games, verbose=False):
     """
@@ -34,30 +32,41 @@ def play(player1, player2, num_games, verbose=False):
 
     return {"Player1": p1_wins, "Player2": p2_wins, "Ties": ties}
 
+# -----------------------------
+# Sample bots
 
-# Sample bots with new names
-def hafizur(prev_play, opponent_history=[]):
+def hafizur(prev_play, opponent_history=None):
     """Cyclic pattern bot"""
+    if opponent_history is None:
+        opponent_history = []
     choices = ["R", "P", "S", "R", "P"]
     return choices[len(opponent_history) % len(choices)]
 
-def rahman(prev_play, opponent_history=[]):
+def rahman(prev_play, opponent_history=None):
     """Reactive bot: plays counter to last opponent move"""
+    if opponent_history is None:
+        opponent_history = []
     if prev_play == "":
         prev_play = "R"
     opponent_history.append(prev_play)
     if opponent_history[-1] == "R":
         return "P"
-    else:
+    elif opponent_history[-1] == "P":
         return "S"
+    else:
+        return "R"
 
-def rony(prev_play, opponent_history=[]):
+def rony(prev_play, opponent_history=None):
     """Repeated cycle bot"""
+    if opponent_history is None:
+        opponent_history = []
     choices = ["R", "R", "P", "P", "S", "S"]
     return choices[len(opponent_history) % len(choices)]
 
-def aishu(prev_play, opponent_history=[]):
+def aishu(prev_play, opponent_history=None):
     """Copy bot: copies opponent's last move"""
+    if opponent_history is None:
+        opponent_history = []
     if prev_play == "":
         prev_play = "R"
     opponent_history.append(prev_play)
