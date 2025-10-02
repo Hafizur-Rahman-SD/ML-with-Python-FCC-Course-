@@ -5,6 +5,10 @@
 import random
 
 def play(player1, player2, num_games, verbose=False):
+    """
+    Run a match between two players for num_games.
+    Returns a dictionary with number of wins and ties.
+    """
     p1_wins = 0
     p2_wins = 0
     ties = 0
@@ -31,14 +35,14 @@ def play(player1, player2, num_games, verbose=False):
     return {"Player1": p1_wins, "Player2": p2_wins, "Ties": ties}
 
 
-# Sample bots
-def quincy(prev_play, opponent_history=[]):
-    # Cycles through fixed pattern
+# Sample bots with new names
+def hafizur(prev_play, opponent_history=[]):
+    """Cyclic pattern bot"""
     choices = ["R", "P", "S", "R", "P"]
     return choices[len(opponent_history) % len(choices)]
 
-def abbey(prev_play, opponent_history=[]):
-    # Reactive bot
+def rahman(prev_play, opponent_history=[]):
+    """Reactive bot: plays counter to last opponent move"""
     if prev_play == "":
         prev_play = "R"
     opponent_history.append(prev_play)
@@ -47,13 +51,13 @@ def abbey(prev_play, opponent_history=[]):
     else:
         return "S"
 
-def kris(prev_play, opponent_history=[]):
-    # Cycles repeated moves
+def rony(prev_play, opponent_history=[]):
+    """Repeated cycle bot"""
     choices = ["R", "R", "P", "P", "S", "S"]
     return choices[len(opponent_history) % len(choices)]
 
-def mrugesh(prev_play, opponent_history=[]):
-    # Copies last move of opponent
+def aishu(prev_play, opponent_history=[]):
+    """Copy bot: copies opponent's last move"""
     if prev_play == "":
         prev_play = "R"
     opponent_history.append(prev_play)
