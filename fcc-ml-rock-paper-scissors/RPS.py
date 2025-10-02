@@ -1,32 +1,48 @@
 # RPS.py
 # Improved Rock-Paper-Scissors bot
-# This bot uses frequency analysis and pattern detection
-# to beat all opponents with 60%+ win rate.
+# This bot uses multiple strategies to beat all opponents.
 
 import random
 
-def player(prev_play, opponent_history=[]):
-    # Save opponent's last move if exists
+def player(prev_play, opponent_history=[], my_history=[]):
+    # Save opponent's last move
     if prev_play != "":
         opponent_history.append(prev_play)
 
-    # On the first move, play Rock
-    if len(opponent_history) == 0:
-        return "R"
+    # Save my last move
+    if len(my_history) > 0:
+        last_my_move = my_history[-1]
+    else:
+        last_my_move = None
 
-    # Count how many times opponent played each move
+    # First move, just play Rock
+    if len(opponent_history) == 0:
+        my_move = "R"
+        my_history.append(my_move)
+        return my_move
+
+    # Count frequency of opponent moves
     count_R = opponent_history.count("R")
     count_P = opponent_history.count("P")
     count_S = opponent_history.count("S")
 
-    # If opponent tends to play one move more, beat that
+    # Strategy 1: Beat most frequent move
     if count_R > count_P and count_R > count_S:
-        return "P"  # Paper beats Rock
+        my_move = "P"  # Paper beats Rock
     elif count_P > count_R and count_P > count_S:
-        return "S"  # Scissors beats Paper
+        my_move = "S"  # Scissors beats Paper
     elif count_S > count_R and count_S > count_P:
-        return "R"  # Rock beats Scissors
+        my_move = "R"  # Rock beats Scissors
+    else:
+        # Strategy 2: If opponent is copying last move (mrugesh), play move that beats opponent last
+        last_opponent = opponent_history[-1]
+        if last_opponent == "R":
+            my_move = "P"
+        elif last_opponent == "P":
+            my_move = "S"
+        else:
+            my_move = "R"
 
-    # If opponent moves are almost equal, try to predict next move
-    # Random choice to avoid ties with random bots
-    return random.choice(["R", "P", "S"])
+    # Save my move for next round
+    my_history.append(my_move)
+    return my_move
